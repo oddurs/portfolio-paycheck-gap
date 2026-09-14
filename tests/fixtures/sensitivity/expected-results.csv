@@ -1,0 +1,9 @@
+alternative,ppg_1980_q2,ppg_1980_q3,q3_difference_from_canonical,q2_to_q3_change_percent,decision
+canonical,114.257990,124.847450,0.000000,9.268026,keep
+simple_yield_divided_by_12,114.185480,124.666752,-0.180698,9.179164,reject
+zero_risk_free,111.590424,119.171673,-5.675777,6.793816,reject
+equal_weight_market,115.877131,137.400683,12.553233,18.574460,reject
+capped_value_weight_market,117.164374,130.821808,5.974358,11.656644,reject
+not_seasonally_adjusted_paycheck,115.157659,127.751577,2.904127,10.936240,reject
+real_paycheck_without_deflated_market,117.809541,131.565477,6.718027,11.676419,reject
+quarterly_average_market,100.398066,111.456137,-13.391313,11.014227,reject

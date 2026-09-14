@@ -1,0 +1,14 @@
+location,name,freq,weighting,direction,n_stocks,n_stocks_min,date,ret
+usa,mkt,monthly,vw,na,4641,na,1979-12-31,0.017817058371866562
+usa,mkt,monthly,vw,na,4645,na,1980-01-31,0.057214837119961955
+usa,mkt,monthly,vw,na,4647,na,1980-02-29,-0.009128884785806618
+usa,mkt,monthly,vw,na,4660,na,1980-03-31,-0.13265491499310134
+usa,mkt,monthly,vw,na,4667,na,1980-04-30,0.039664414589610834
+usa,mkt,monthly,vw,na,4652,na,1980-05-31,0.05238369982785969
+usa,mkt,monthly,vw,na,4649,na,1980-06-30,0.03195092363482106
+usa,mkt,monthly,vw,na,4668,na,1980-07-31,0.06412149789269819
+usa,mkt,monthly,vw,na,4692,na,1980-08-31,0.017504549659337575
+usa,mkt,monthly,vw,na,4700,na,1980-09-30,0.020862009227038267
+usa,mkt,monthly,vw,na,4769,na,2025-07-31,0.018090748679692032
+usa,mkt,monthly,vw,na,4796,na,2025-08-31,0.02029701462583978
+usa,mkt,monthly,vw,na,4798,na,2025-09-30,0.034027638006828044
