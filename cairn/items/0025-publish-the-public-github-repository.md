@@ -2,10 +2,9 @@
 id: 25
 title: Publish the public GitHub repository
 type: chore
-status: doing
+status: done
 milestone: v0.1
 assignee: Oddur Sigurdsson
-claimed: 2026-09-13
 created: 2026-09-13
 updated: 2026-09-13
 priority: p0
@@ -25,6 +24,10 @@ Create a concise public landing page, record the canonical GitHub URL, make the 
 
 - [x] The root README links the methodology, roadmap, validation commands, and data-use terms.
 - [x] Cairn and repository metadata record the canonical GitHub URL.
-- [ ] The complete v0.1 bootstrap is committed on main with the required Cairn reference.
+- [x] The complete v0.1 bootstrap is committed on main with the required Cairn reference.
 - [x] The GitHub repository is public and origin/main tracking is configured.
-- [ ] Local checks pass and the pushed commit matches local HEAD.
+- [x] Local checks pass and the pushed commit matches local HEAD.
+
+## 2026-09-13
+
+Created https://github.com/oddurs/portfolio-paycheck-gap as a public repository with GitHub issues disabled in favor of Cairn, set repository topics and description, pushed the validated bootstrap to main, and verified the remote branch SHA against local HEAD.

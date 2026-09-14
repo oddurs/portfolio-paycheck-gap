@@ -6,13 +6,9 @@ A transparent quarterly measure of how returns to owning stocks diverge from med
 
 ## v0.1 — Freeze the index definition
 
-`#########·` 86% · 6 of 7 done
+`##########` 100% · 7 of 7 done
 
 PPG has one defensible meaning: it measures the cumulative divergence between the return to a representative US stock investment and the median full-time paycheck. Every choice that can change the series is written down before the production implementation begins.
-
-### in progress
-
-- [ ] `0025` Publish the public GitHub repository <sup>chore · p0</sup>
 
 ### done
 
@@ -22,6 +18,7 @@ PPG has one defensible meaning: it measures the cumulative divergence between th
 - [x] `0008` Test sensitivity, revisions, and edge cases <sup>chore · p0</sup>
 - [x] `0009` Publish methodology v0.1 and the data dictionary <sup>docs · p0</sup>
 - [x] `0024` Establish repository workflow and Git standards <sup>docs · p0</sup>
+- [x] `0025` Publish the public GitHub repository <sup>chore · p0</sup>
 
 ## v0.2 — Produce a reproducible historical index
 
