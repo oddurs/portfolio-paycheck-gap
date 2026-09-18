@@ -27,10 +27,11 @@ does not yet publish a current headline reading.
 
 ## Validate
 
-The methodology checks use only Python's standard library and pinned local
-fixtures:
+Install the exact development environment with
+[uv](https://docs.astral.sh/uv/), then run every repository gate:
 
 ```sh
+uv sync --locked --all-groups
 make check
 ```
 
@@ -44,6 +45,20 @@ make source-check
 The project backlog and milestone state live in plain Markdown through
 [Cairn](https://github.com/oddurs/cairn). Run `cairn roadmap` or `cairn next`
 to inspect the work.
+
+## Command line
+
+The installed `ppg` command provides four workflow boundaries:
+
+```text
+ppg fetch   # retrieve and cache immutable source snapshots
+ppg build   # calculate and render from a selected local snapshot
+ppg check   # validate snapshots, calculations, and artifacts
+ppg update  # fetch, build, and check without automatic publication
+```
+
+Run `ppg COMMAND --help` for command-specific paths and options. Fetching is
+isolated in `ppg_index.sources`; calculation and rendering remain offline.
 
 ## Data use
 

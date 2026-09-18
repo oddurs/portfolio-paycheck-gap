@@ -2,12 +2,13 @@
 id: 10
 title: Scaffold the Python package and command-line interface
 type: chore
-status: backlog
+status: done
 milestone: v0.2
+assignee: Oddur Sigurdsson
 depends_on:
 - 9
 created: 2026-09-13
-updated: 2026-09-13
+updated: 2026-09-17
 priority: p1
 effort: s
 area: core
@@ -26,8 +27,12 @@ report the index, with narrower subcommands for development and automation.
 
 ## Acceptance criteria
 
-- [ ] A clean environment can install the package from the repository.
-- [ ] The CLI exposes documented `fetch`, `build`, `check`, and `update` commands.
-- [ ] Runtime and development dependencies are pinned through the chosen package workflow.
-- [ ] Formatting, linting, and tests have single documented commands.
-- [ ] Network access is isolated from calculation and rendering modules.
+- [x] A clean environment can install the package from the repository.
+- [x] The CLI exposes documented `fetch`, `build`, `check`, and `update` commands.
+- [x] Runtime and development dependencies are pinned through the chosen package workflow.
+- [x] Formatting, linting, and tests have single documented commands.
+- [x] Network access is isolated from calculation and rendering modules.
+
+## 2026-09-17
+
+Validated on 2026-09-17: make check passes (10 pytest tests plus methodology/reference/docs gates), uv build succeeds, and a clean temporary virtual environment installs the wheel and exposes fetch/build/check/update.

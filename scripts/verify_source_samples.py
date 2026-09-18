@@ -7,23 +7,19 @@ import csv
 import hashlib
 import io
 import json
-from pathlib import Path
 import sys
-from urllib.request import Request, urlopen
 import zipfile
-
+from pathlib import Path
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "sources"
 USER_AGENT = "ppg-index-source-verifier/0.1 (+https://github.com/)"
 
 JKP_URL = (
-    "https://jkpfactors-data.s3.amazonaws.com/public/"
-    "%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
+    "https://jkpfactors-data.s3.amazonaws.com/public/%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
 )
-JKP_ARCHIVE_SHA256 = (
-    "8c69cc848ebb447f8c47346a4b3eabed65fac03f0b895b04319f3828e3b6e79f"
-)
+JKP_ARCHIVE_SHA256 = "8c69cc848ebb447f8c47346a4b3eabed65fac03f0b895b04319f3828e3b6e79f"
 JKP_DATES = {
     "1979-12-31",
     "1980-01-31",
@@ -99,8 +95,7 @@ def reproduce_jkp() -> bytes:
     actual_hash = hashlib.sha256(archive).hexdigest()
     if actual_hash != JKP_ARCHIVE_SHA256:
         raise ValueError(
-            "JKP source vintage changed: "
-            f"expected {JKP_ARCHIVE_SHA256}, got {actual_hash}"
+            f"JKP source vintage changed: expected {JKP_ARCHIVE_SHA256}, got {actual_hash}"
         )
     with zipfile.ZipFile(io.BytesIO(archive)) as bundle:
         members = [name for name in bundle.namelist() if name.endswith(".csv")]

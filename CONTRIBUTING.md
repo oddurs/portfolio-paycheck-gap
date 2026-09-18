@@ -28,6 +28,23 @@ with evidence that its acceptance criteria are true.
 GitHub issues are not the project backlog. Cairn items under `cairn/items` are
 the source of truth; a pull request should name its item and link its file.
 
+## Development environment
+
+The project requires Python 3.11 or newer and uses
+[uv](https://docs.astral.sh/uv/) for dependency locking and command execution.
+
+```sh
+make setup       # install the exact environment from uv.lock
+make format      # apply Ruff formatting and safe lint fixes
+make lint        # check formatting and lint rules
+make test        # run the test suite
+make check       # run every local repository gate
+```
+
+Runtime code lives under `src/ppg_index`. Remote I/O belongs only in
+`ppg_index.sources`; calculation and rendering accept local values and must
+remain usable with networking disabled.
+
 ## Commits
 
 Use an imperative Conventional Commit subject with a scope when useful, ending

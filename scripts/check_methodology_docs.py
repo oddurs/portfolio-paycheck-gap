@@ -3,10 +3,9 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import re
 import sys
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 METHODOLOGY = ROOT / "methodology"
@@ -117,8 +116,7 @@ def main() -> int:
         for target in local_links(document, text):
             if not target.exists():
                 errors.append(
-                    f"broken local link in {document.relative_to(ROOT)}: "
-                    f"{target.relative_to(ROOT)}"
+                    f"broken local link in {document.relative_to(ROOT)}: {target.relative_to(ROOT)}"
                 )
 
     for filename, sections in REQUIRED_SECTIONS.items():

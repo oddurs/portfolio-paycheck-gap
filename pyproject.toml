@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ppg-index"
+version = "0.2.0.dev0"
+description = "Reproducible Portfolio–Paycheck Gap Index"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [{ name = "Oddur Sigurdsson" }]
+keywords = ["economics", "finance", "index", "reproducible-research"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Office/Business :: Financial",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/oddurs/portfolio-paycheck-gap"
+Documentation = "https://github.com/oddurs/portfolio-paycheck-gap/tree/main/methodology"
+Repository = "https://github.com/oddurs/portfolio-paycheck-gap"
+Issues = "https://github.com/oddurs/portfolio-paycheck-gap/tree/main/cairn/items"
+
+[project.scripts]
+ppg = "ppg_index.cli:main"
+
+[dependency-groups]
+dev = [
+  "pytest>=9.0.2,<10",
+  "ruff>=0.13.0,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ppg_index"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
