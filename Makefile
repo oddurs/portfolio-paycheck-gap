@@ -1,4 +1,4 @@
-.PHONY: artifacts check format golden-update lint methodology-check package reproduce roadmap setup source-check test
+.PHONY: artifacts check format golden-update lint methodology-check package preview reproduce roadmap setup site site-check source-check test
 
 UV := uv
 
@@ -24,12 +24,23 @@ package:
 
 artifacts:
 	$(UV) run ppg build --snapshot-dir data --output-dir public/data
+	$(UV) run python scripts/build_site.py
+
+site:
+	$(UV) run python scripts/build_site.py
+
+site-check:
+	$(UV) run python scripts/build_site.py --check
+
+preview: site
+	$(UV) run python -m http.server 8000 --directory public
 
 reproduce:
 	$(UV) sync --locked --all-groups
 	$(UV) run ppg build --snapshot-dir data --output-dir public/data
+	$(UV) run python scripts/build_site.py
 	$(UV) run ppg check --snapshot-dir data --artifact-dir public/data
-	git diff --exit-code -- public/data
+	git diff --exit-code -- public
 
 check:
 	cairn check
@@ -38,6 +49,7 @@ check:
 	$(UV) run ruff format --check .
 	$(UV) run pytest
 	$(UV) run ppg check --snapshot-dir data --artifact-dir public/data
+	$(UV) run python scripts/build_site.py --check
 	$(UV) run python scripts/run_reference_notebook.py
 	$(UV) run python scripts/run_methodology_tests.py
 	$(UV) run python scripts/check_methodology_docs.py

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta
+      name="description"
+      content="The Portfolio–Paycheck Gap Index compares US stock-market growth with median full-time paycheck growth since 1980."
+    >
+    <title>Portfolio–Paycheck Gap Index · $period</title>
+    <link rel="stylesheet" href="assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to the indicator</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Portfolio–Paycheck Gap Index home">
+        <span class="brand-mark" aria-hidden="true">P/P</span>
+        <span>Portfolio–Paycheck Gap</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#history">History</a>
+        <a href="#interpretation">Interpret</a>
+        <a href="#resources">Resources</a>
+      </nav>
+    </header>
+
+    <main id="main" data-latest-quarter="$period_code">
+      <section class="hero" id="top" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">United States · Quarterly · 1980 Q1 = 100</p>
+          <h1 id="page-title">When markets compound faster than paychecks</h1>
+          <p class="lede">
+            PPG compares the growth of a broad US stock-market investment with
+            the growth of the median full-time paycheck. It measures relative
+            paths—not a dollar gap, valuation, or typical worker portfolio.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="data/ppg.csv" download>Download the data</a>
+            <a class="button" href="https://github.com/oddurs/portfolio-paycheck-gap/blob/main/methodology/v0.1.md">Read methodology v$methodology_version</a>
+          </div>
+        </div>
+
+        <aside class="reading-card" aria-label="Latest PPG reading">
+          <div class="reading-meta">
+            <p>Latest complete quarter</p>
+            <span class="status status-$status_class" data-state="$status_class">$status_label</span>
+          </div>
+          <p class="reading-value" aria-label="$value index points">$value</p>
+          <p class="reading-unit">index points · through $period</p>
+          <dl class="change-grid">
+            <div>
+              <dt>Quarterly</dt>
+              <dd>$qoq</dd>
+            </div>
+            <div>
+              <dt>Annual</dt>
+              <dd>$yoy</dd>
+            </div>
+          </dl>
+          <p class="status-note status-note-$status_class"><strong>$status_label.</strong> $status_note</p>
+          <p class="as-of">Quarter ended <time datetime="$observation_date_iso">$observation_date</time></p>
+        </aside>
+      </section>
+
+      <section class="section chart-section" id="history" aria-labelledby="history-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">The long view</p>
+            <h2 id="history-title">$observation_count quarters of relative growth</h2>
+          </div>
+          <a class="text-link" href="data/ppg.svg">Open chart as SVG <span aria-hidden="true">↗</span></a>
+        </div>
+        <figure class="chart-card">
+          <img
+            src="data/ppg.svg"
+            width="1200"
+            height="675"
+            alt="Line chart of quarterly PPG history from $first_period through $period. Exact observations are available in the linked CSV."
+          >
+          <figcaption>
+            PPG level, quarterly from $first_period to $period. The baseline is
+            100 in 1980 Q1. <a href="data/ppg.csv">Download exact observations</a>.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section" id="interpretation" aria-labelledby="interpretation-title">
+        <div class="section-heading narrow-heading">
+          <div>
+            <p class="eyebrow">Read the ratio</p>
+            <h2 id="interpretation-title">Large number, specific meaning</h2>
+          </div>
+          <p>
+            The level compares two growth factors from the same base. It is not
+            itself a percentage.
+          </p>
+        </div>
+
+        <div class="component-grid" aria-label="Latest component index values">
+          <article class="component-card component-market">
+            <p class="component-label">Market component</p>
+            <p class="component-value">$market_component</p>
+            <p>Hypothetical broad-market wealth, rebased to 100.</p>
+          </article>
+          <div class="ratio-mark" aria-hidden="true">÷</div>
+          <article class="component-card component-paycheck">
+            <p class="component-label">Paycheck component</p>
+            <p class="component-value">$paycheck_component</p>
+            <p>Median weekly earnings, rebased to 100.</p>
+          </article>
+        </div>
+
+        <div class="explain-grid">
+          <article>
+            <span class="step">01</span>
+            <h3>Start at 100</h3>
+            <p>Both components equal 100 in 1980 Q1. The base is a measuring reference, not a claim about fairness.</p>
+          </article>
+          <article>
+            <span class="step">02</span>
+            <h3>Compare growth</h3>
+            <p>Above 100 means market wealth grew faster; below 100 means the paycheck grew faster over the same span.</p>
+          </article>
+          <article>
+            <span class="step">03</span>
+            <h3>Keep claims narrow</h3>
+            <p>PPG does not show who owns stocks, explain causation, measure living costs, or forecast either series.</p>
+          </article>
+        </div>
+
+        <aside class="callout">
+          <p class="callout-title">The populations are different.</p>
+          <p>
+            The market leg is a hypothetical investment. The paycheck leg is a
+            changing cross-sectional median for full-time wage and salary
+            workers. PPG does not imply that those workers own the portfolio.
+          </p>
+          <a class="text-link" href="https://github.com/oddurs/portfolio-paycheck-gap/blob/main/docs/interpretation-guide.md">Use the interpretation guide <span aria-hidden="true">↗</span></a>
+        </aside>
+      </section>
+
+      <section class="section resources" id="resources" aria-labelledby="resources-title">
+        <div class="section-heading narrow-heading">
+          <div>
+            <p class="eyebrow">Open materials</p>
+            <h2 id="resources-title">Inspect every layer</h2>
+          </div>
+          <p>Data vintage $snapshot_id · generated $generated_date</p>
+        </div>
+        <div class="resource-grid">
+          <a href="data/ppg.csv">
+            <span>CSV</span>
+            <strong>Quarterly history</strong>
+            <small>Values and components</small>
+          </a>
+          <a href="data/latest.json">
+            <span>JSON</span>
+            <strong>Latest reading</strong>
+            <small>Value, changes, and status</small>
+          </a>
+          <a href="data/provenance.json">
+            <span>JSON</span>
+            <strong>Provenance</strong>
+            <small>Sources, dates, and checksums</small>
+          </a>
+          <a href="https://github.com/oddurs/portfolio-paycheck-gap/blob/main/methodology/v0.1.md">
+            <span>MD</span>
+            <strong>Methodology</strong>
+            <small>Definition and limitations</small>
+          </a>
+          <a href="https://github.com/oddurs/portfolio-paycheck-gap#reproduce-and-validate">
+            <span>CLI</span>
+            <strong>Reproduce</strong>
+            <small>Build from source data</small>
+          </a>
+          <a href="https://github.com/oddurs/portfolio-paycheck-gap/releases">
+            <span>GH</span>
+            <strong>Releases</strong>
+            <small>Named, immutable vintages</small>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        An open, reproducible economic indicator. Methodology v$methodology_version ·
+        snapshot <code>$snapshot_id</code>.
+      </p>
+      <p>
+        JKP-derived data and charts are limited to noncommercial use under CC
+        BY-NC 4.0. <a href="https://github.com/oddurs/portfolio-paycheck-gap/blob/main/DATA_LICENSE.md">Attribution and terms</a>.
+      </p>
+    </footer>
+  </body>
+</html>

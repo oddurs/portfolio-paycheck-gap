@@ -73,6 +73,7 @@ drawing conclusions.
 | [Data dictionary](methodology/data-dictionary-v0.1.md) | Input, intermediate, output, and metadata fields |
 | [Reference notebook](notebooks/ppg_reference.ipynb) | Independently executable calculation |
 | [Sensitivity analysis](methodology/sensitivity-analysis.md) | Failure policy and material methodological choices |
+| [Static site source](site/index.html.template) | Generated, dependency-free public interface |
 | [Release v0.2.1](releases/v0.2.1.md) | Corrected reproducible data release and notes |
 
 Canonical sources are Jensen, Kelly, and Pedersen's US value-weighted market
@@ -109,6 +110,12 @@ Run every repository quality gate:
 
 ```sh
 make check
+```
+
+Preview the generated static interface at `http://localhost:8000`:
+
+```sh
+make preview
 ```
 
 To retrieve live inputs into an ignored review workspace without publishing

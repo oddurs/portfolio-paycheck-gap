@@ -37,7 +37,7 @@ A clean checkout can acquire the declared inputs, calculate every historical qua
 
 ## v0.3 — Publish an automated public indicator
 
-`###·······` 25% · 1 of 4 done
+`####······` 40% · 2 of 5 done
 
 Someone encountering the repository can understand the current PPG reading, inspect its history, download the data, and reproduce the result. Quarterly updates are automated but remain reviewable before publication.
 
@@ -50,6 +50,7 @@ Someone encountering the repository can understand the current PPG reading, insp
 ### done
 
 - [x] `0016` Build the public README and interpretation guide <sup>docs · p1</sup>
+- [x] `0027` Build the static frontend foundation <sup>feature · p1</sup>
 
 ## v1.0 — Establish a credible maintained benchmark
 
