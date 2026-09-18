@@ -1,4 +1,4 @@
-.PHONY: check format lint methodology-check package roadmap setup source-check test
+.PHONY: check format golden-update lint methodology-check package roadmap setup source-check test
 
 UV := uv
 
@@ -15,6 +15,9 @@ lint:
 
 test:
 	$(UV) run pytest
+
+golden-update:
+	$(UV) run python scripts/update_golden.py --accept
 
 package:
 	$(UV) build

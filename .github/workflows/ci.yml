@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.0.0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7.2.1
+        with:
+          version: 0.10.6
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install Cairn
+        shell: bash
+        run: |
+          curl --fail --silent --show-error --location \
+            https://github.com/oddurs/cairn/releases/download/v0.2.1/cairn-0.2.1-x86_64-unknown-linux-musl.tar.gz \
+            --output cairn.tar.gz
+          echo "b6fa974e66805c9d24c9553b035649a335fd4a3f4d3b9eba77750d2c0ed1a537  cairn.tar.gz" | sha256sum --check
+          tar --extract --gzip --file cairn.tar.gz
+          mkdir -p "$HOME/.local/bin"
+          install cairn-0.2.1-x86_64-unknown-linux-musl/cairn "$HOME/.local/bin/cairn"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install locked environment
+        run: uv sync --locked --all-groups
+
+      - name: Run complete repository gate
+        run: make check
