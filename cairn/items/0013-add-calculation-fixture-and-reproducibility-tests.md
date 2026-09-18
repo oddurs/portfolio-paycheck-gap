@@ -2,10 +2,9 @@
 id: 13
 title: Add calculation, fixture, and reproducibility tests
 type: chore
-status: doing
+status: done
 milestone: v0.2
 assignee: Oddur Sigurdsson
-claimed: 2026-09-17
 depends_on:
 - 12
 created: 2026-09-13
@@ -28,9 +27,13 @@ runs from pinned raw snapshots with networking disabled.
 
 ## Acceptance criteria
 
-- [ ] Hand-calculated fixtures cover the base quarter and representative later quarters.
-- [ ] Tests detect off-by-one-quarter joins and omitted total-return distributions.
-- [ ] Rebase invariance and ratio identities are property-tested or exhaustively fixture-tested.
-- [ ] An offline end-to-end build matches committed golden outputs.
-- [ ] Intentional output changes require an explicit golden-data update.
-- [ ] CI runs the complete suite on every proposed change.
+- [x] Hand-calculated fixtures cover the base quarter and representative later quarters.
+- [x] Tests detect off-by-one-quarter joins and omitted total-return distributions.
+- [x] Rebase invariance and ratio identities are property-tested or exhaustively fixture-tested.
+- [x] An offline end-to-end build matches committed golden outputs.
+- [x] Intentional output changes require an explicit golden-data update.
+- [x] CI runs the complete suite on every proposed change.
+
+## 2026-09-17
+
+Validated 2026-09-17: 187-row golden history reproduces byte-for-byte from pinned raw responses with networking disabled; shifted-quarter and omitted-return mutations are detected; ratio/rebase identities pass exhaustively across all 187 base choices. make check passes 29 tests locally and GitHub Actions run 35300009111 passed.
