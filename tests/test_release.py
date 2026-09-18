@@ -24,8 +24,8 @@ def test_release_artifact_checksums() -> None:
         "latest.json": ROOT / "public/data/latest.json",
         "ppg.svg": ROOT / "public/data/ppg.svg",
         "provenance.json": ROOT / "public/data/provenance.json",
-        "methodology-v0.1.md": ROOT / "methodology/v0.1.md",
-        "source-manifest.json": ROOT / "data/snapshots/4156e87c2524a9ce/manifest.json",
+        "v0.1.md": ROOT / "methodology/v0.1.md",
+        "manifest.json": ROOT / "data/snapshots/4156e87c2524a9ce/manifest.json",
     }
     lines = (ROOT / "releases/v0.2.0-SHA256SUMS").read_text().splitlines()
     declared = dict(line.split("  ", 1)[::-1] for line in lines)
