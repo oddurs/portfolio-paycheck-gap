@@ -61,3 +61,11 @@ PPG graduates from an interesting chart to a maintained public benchmark with ex
 - [ ] `0022` Document contribution, citation, and release governance <sup>docs · p1</sup>
 - [ ] `0023` Release PPG Index 1.0 <sup>chore · p0</sup>
 
+## Unscheduled
+
+`··········` 0% · 0 of 1 done
+
+### in progress
+
+- [ ] `0026` Harden release provenance and compatibility claims <sup>bug · p0</sup>
+

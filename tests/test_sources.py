@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import zipfile
 from io import BytesIO
 from pathlib import Path
@@ -46,6 +47,8 @@ def test_committed_snapshot_and_checksums_are_valid() -> None:
         "treasury",
         "paycheck",
     ]
+    assert manifest["schema_version"] == 2
+    assert all(len(source["raw_bundle_sha256"]) == 64 for source in manifest["sources"])
 
 
 def test_raw_snapshot_replays_to_byte_identical_normalized_inputs() -> None:
@@ -103,6 +106,17 @@ def test_checksum_tampering_is_rejected(tmp_path: Path) -> None:
         verify_snapshot(created)
 
 
+def test_raw_bundle_checksum_is_independently_verified(tmp_path: Path) -> None:
+    copied = tmp_path / "snapshot"
+    shutil.copytree(canonical_snapshot(), copied)
+    manifest_path = copied / "manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["sources"][0]["raw_bundle_sha256"] = "0" * 64
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    with pytest.raises(SnapshotError, match="raw bundle checksum mismatch: market"):
+        verify_snapshot(copied)
+
+
 def test_changed_overlap_is_quarantined_until_explicitly_accepted(tmp_path: Path) -> None:
     expected = raw_source_map(canonical_snapshot())
     acquire_snapshot(
@@ -134,3 +148,20 @@ def test_changed_overlap_is_quarantined_until_explicitly_accepted(tmp_path: Path
         )
     pointer = json.loads((tmp_path / "current.json").read_text())
     assert pointer["snapshot_id"] == canonical_snapshot().name
+    quarantined = list((tmp_path / "quarantine").iterdir())
+    assert len(quarantined) == 1
+    verify_snapshot(quarantined[0])
+
+    accepted = acquire_snapshot(
+        tmp_path,
+        end_year=2026,
+        retrieved_at="2026-09-18T16:00:00Z",
+        accept_revision=True,
+        fetcher=revised.__getitem__,
+    )
+    assert accepted.name == quarantined[0].name
+    pointer = json.loads((tmp_path / "current.json").read_text())
+    assert pointer == {
+        "snapshot_id": accepted.name,
+        "source_revision_accepted": True,
+    }

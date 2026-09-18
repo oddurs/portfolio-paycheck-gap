@@ -12,7 +12,7 @@ from ppg_index.cli import main
 
 
 def test_version_is_installed_package_version() -> None:
-    assert __version__ == "0.2.0"
+    assert __version__ == "0.2.1"
 
 
 @pytest.mark.parametrize("command", ["fetch", "build", "check", "update"])

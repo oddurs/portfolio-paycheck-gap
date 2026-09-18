@@ -41,7 +41,7 @@ def _build(args: argparse.Namespace) -> int:
     from ppg_index.validation import PPGError
 
     try:
-        publication = build_artifacts(args.snapshot_dir)
+        publication = build_artifacts(args.snapshot_dir, generated_at=args.generated_at)
         summary = publish_artifacts(args.output_dir, publication.artifacts)
     except (OSError, ValueError, PPGError) as error:
         print(f"ppg build failed: {error}", file=sys.stderr)
@@ -58,7 +58,7 @@ def _check(args: argparse.Namespace) -> int:
     from ppg_index.validation import PPGError, validate_artifact_directory
 
     try:
-        expected = build_artifacts(args.snapshot_dir)
+        expected = build_artifacts(args.snapshot_dir, generated_at=args.generated_at)
         actual = validate_artifact_directory(args.artifact_dir)
         for name, data in expected.artifacts.files().items():
             if (args.artifact_dir / name).read_bytes() != data:
@@ -123,11 +123,13 @@ def build_parser() -> argparse.ArgumentParser:
     build = commands.add_parser("build", help="Build index artifacts from cached snapshots.")
     build.add_argument("--snapshot-dir", type=_path, default=Path("data"))
     build.add_argument("--output-dir", type=_path, default=Path("public/data"))
+    build.add_argument("--generated-at", help="Pin the artifact generation timestamp.")
     build.set_defaults(handler=_build)
 
     check = commands.add_parser("check", help="Validate snapshots, calculations, and artifacts.")
     check.add_argument("--snapshot-dir", type=_path, default=Path("data"))
     check.add_argument("--artifact-dir", type=_path, default=Path("public/data"))
+    check.add_argument("--generated-at", help="Pin the expected artifact generation timestamp.")
     check.set_defaults(handler=_check)
 
     update = commands.add_parser(

@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675"
   width="1200" height="675" role="img" aria-labelledby="chart-title chart-desc"
   data-latest-quarter="2025-Q3" data-latest-value="4217.405914"
-  data-methodology-version="0.1" data-snapshot-id="4156e87c2524a9ce">
+  data-methodology-version="0.1" data-snapshot-id="2266e3ee4151567d">
   <title id="chart-title">Portfolio-Paycheck Gap Index</title>
   <desc id="chart-desc">Quarterly PPG history from 1979-Q1 through 2025-Q3. The latest value is 4217.4 index points, with 1980-Q1 equal to 100.</desc>
   <style>
@@ -226,5 +226,5 @@
   <text x="60" y="628" class="note">Sources: JKP Global Factor Data;
     Federal Reserve H.15 via FRED; BLS LES1252881500.</text>
   <text x="60" y="650" class="note">JKP-derived chart: CC BY-NC 4.0,
-    modified, noncommercial. Snapshot 4156e87c2524a9ce.</text>
+    modified, noncommercial. Snapshot 2266e3ee4151567d.</text>
 </svg>

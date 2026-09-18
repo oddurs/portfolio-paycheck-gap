@@ -42,6 +42,17 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def raw_bundle_sha256(raw_files: Sequence[tuple[str, bytes]]) -> str:
+    """Hash filename/data pairs with unsigned 64-bit length framing."""
+
+    digest = hashlib.sha256()
+    for filename, data in raw_files:
+        for part in (filename.encode("utf-8"), data):
+            digest.update(len(part).to_bytes(8, "big"))
+            digest.update(part)
+    return digest.hexdigest()
+
+
 def fetch_url(url: str) -> bytes:
     last_error: OSError | None = None
     for attempt in range(3):
@@ -94,6 +105,7 @@ def _source_record(
             {"path": f"raw/{filename}", "sha256": sha256(data), "bytes": len(data)}
             for filename, data in raw_files
         ],
+        "raw_bundle_sha256": raw_bundle_sha256(raw_files),
         "normalized": {
             "path": f"normalized/{normalized_name}",
             "sha256": sha256(normalized.data),
@@ -134,7 +146,8 @@ def verify_snapshot(snapshot_dir: Path) -> dict[str, object]:
     """Verify every declared file checksum and core manifest identity."""
 
     manifest = _load_manifest(snapshot_dir)
-    if manifest.get("schema_version") != 1 or manifest.get("parser_version") != PARSER_VERSION:
+    schema_version = manifest.get("schema_version")
+    if schema_version not in {1, 2} or manifest.get("parser_version") != PARSER_VERSION:
         raise SnapshotError("unsupported snapshot manifest or parser version")
     sources = manifest.get("sources")
     if not isinstance(sources, list) or len(sources) != 3:
@@ -142,7 +155,11 @@ def verify_snapshot(snapshot_dir: Path) -> dict[str, object]:
     for source in sources:
         if not isinstance(source, dict):
             raise SnapshotError("source manifest entry must be an object")
-        files = [*source.get("raw", []), source.get("normalized")]
+        raw_entries = source.get("raw", [])
+        if not isinstance(raw_entries, list) or not raw_entries:
+            raise SnapshotError("snapshot source has no raw files")
+        raw_files: list[tuple[str, bytes]] = []
+        files = [*raw_entries, source.get("normalized")]
         for item in files:
             if not isinstance(item, dict):
                 raise SnapshotError("snapshot file entry must be an object")
@@ -160,6 +177,10 @@ def verify_snapshot(snapshot_dir: Path) -> dict[str, object]:
                 raise SnapshotError(f"missing snapshot file: {relative}") from error
             if sha256(data) != item.get("sha256") or len(data) != item.get("bytes"):
                 raise SnapshotError(f"snapshot checksum mismatch: {relative}")
+            if item in raw_entries:
+                raw_files.append((Path(relative).name, data))
+        if schema_version == 2 and raw_bundle_sha256(raw_files) != source.get("raw_bundle_sha256"):
+            raise SnapshotError(f"raw bundle checksum mismatch: {source.get('name')}")
     if manifest.get("snapshot_id") != _snapshot_id(sources):
         raise SnapshotError("snapshot identifier does not match raw checksums")
     return manifest
@@ -223,6 +244,33 @@ def resolve_current(cache_dir: Path) -> Path | None:
     if not isinstance(snapshot_id, str) or not snapshot_id:
         raise SnapshotError("current snapshot pointer has an invalid identifier")
     return cache_dir / "snapshots" / snapshot_id
+
+
+def _store_snapshot(
+    destination: Path,
+    *,
+    manifest: dict[str, object],
+    raw_files: Sequence[tuple[str, bytes]],
+    normalized: dict[str, NormalizedSource],
+) -> None:
+    if destination.exists():
+        verify_snapshot(destination)
+        return
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = Path(tempfile.mkdtemp(prefix=f".{destination.name}-", dir=destination.parent))
+    try:
+        (temporary / "raw").mkdir()
+        (temporary / "normalized").mkdir()
+        for name, data in raw_files:
+            (temporary / "raw" / name).write_bytes(data)
+        for name, source in normalized.items():
+            (temporary / "normalized" / f"{name}.csv").write_bytes(source.data)
+        (temporary / MANIFEST_NAME).write_bytes(_canonical_json(manifest))
+        verify_snapshot(temporary)
+        os.replace(temporary, destination)
+    except BaseException:
+        shutil.rmtree(temporary, ignore_errors=True)
+        raise
 
 
 def acquire_snapshot(
@@ -290,46 +338,44 @@ def acquire_snapshot(
         ),
     ]
     snapshot_id = _snapshot_id(records)
-    snapshots_dir = cache_dir / "snapshots"
-    destination = snapshots_dir / snapshot_id
-    if destination.exists():
-        verify_snapshot(destination)
-        return destination
-
+    raw_files = [(JKP_RAW_NAME, market_raw), (FRED_RAW_NAME, treasury_raw), *bls_files]
     previous_dir = resolve_current(cache_dir)
+    revisions: list[str] = []
     if previous_dir is not None:
         previous = verify_snapshot(previous_dir)
         revisions = _find_revisions(previous_dir, previous, records, normalized)
-        if revisions and not accept_revision:
-            raise SnapshotError(
-                "unexpected source revision; inspect and rerun with --accept-revision: "
-                + "; ".join(revisions)
-            )
 
     manifest = {
-        "schema_version": 1,
+        "schema_version": 2,
         "snapshot_id": snapshot_id,
         "parser_version": PARSER_VERSION,
         "retrieved_at": parsed_timestamp.astimezone(UTC).replace(microsecond=0).isoformat(),
         "sources": records,
     }
-    snapshots_dir.mkdir(parents=True, exist_ok=True)
-    temporary = Path(tempfile.mkdtemp(prefix=f".{snapshot_id}-", dir=snapshots_dir))
-    try:
-        (temporary / "raw").mkdir()
-        (temporary / "normalized").mkdir()
-        raw_files = [(JKP_RAW_NAME, market_raw), (FRED_RAW_NAME, treasury_raw), *bls_files]
-        for name, data in raw_files:
-            (temporary / "raw" / name).write_bytes(data)
-        for name, source in normalized.items():
-            (temporary / "normalized" / f"{name}.csv").write_bytes(source.data)
-        (temporary / MANIFEST_NAME).write_bytes(_canonical_json(manifest))
-        verify_snapshot(temporary)
-        os.replace(temporary, destination)
-    except BaseException:
-        shutil.rmtree(temporary, ignore_errors=True)
-        raise
-    pointer = {"snapshot_id": snapshot_id}
+    if revisions and not accept_revision:
+        quarantine = cache_dir / "quarantine" / snapshot_id
+        _store_snapshot(
+            quarantine,
+            manifest=manifest,
+            raw_files=raw_files,
+            normalized=normalized,
+        )
+        raise SnapshotError(
+            f"unexpected source revision retained at {quarantine}; reviewed pointer unchanged: "
+            + "; ".join(revisions)
+        )
+
+    destination = cache_dir / "snapshots" / snapshot_id
+    _store_snapshot(
+        destination,
+        manifest=manifest,
+        raw_files=raw_files,
+        normalized=normalized,
+    )
+    pointer = {
+        "snapshot_id": snapshot_id,
+        "source_revision_accepted": bool(revisions and accept_revision),
+    }
     pointer_temp = cache_dir / ".current.json.tmp"
     pointer_temp.write_bytes(_canonical_json(pointer))
     os.replace(pointer_temp, cache_dir / "current.json")
