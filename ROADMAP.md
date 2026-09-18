@@ -28,9 +28,12 @@ A clean checkout can acquire the declared inputs, calculate every historical qua
 
 ### backlog
 
-- [ ] `0013` Add calculation, fixture, and reproducibility tests <sup>chore · p0</sup>
 - [ ] `0014` Generate the canonical CSV, JSON, and SVG artifacts <sup>feature · p1</sup>
 - [ ] `0015` Cut the first reproducible historical-data release <sup>chore · p0</sup>
+
+### in progress
+
+- [ ] `0013` Add calculation, fixture, and reproducibility tests <sup>chore · p0</sup>
 
 ### done
 

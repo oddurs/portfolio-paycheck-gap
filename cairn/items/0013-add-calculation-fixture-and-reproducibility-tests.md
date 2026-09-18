@@ -2,12 +2,14 @@
 id: 13
 title: Add calculation, fixture, and reproducibility tests
 type: chore
-status: backlog
+status: doing
 milestone: v0.2
+assignee: Oddur Sigurdsson
+claimed: 2026-09-17
 depends_on:
 - 12
 created: 2026-09-13
-updated: 2026-09-13
+updated: 2026-09-17
 priority: p0
 effort: m
 area: quality

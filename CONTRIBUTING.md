@@ -41,6 +41,12 @@ make test        # run the test suite
 make check       # run every local repository gate
 ```
 
+The full-history golden calculation is intentionally not rewritten during a
+normal build. When a reviewed methodology or accepted source revision changes
+history, run `make golden-update`, inspect the entire diff, and summarize its
+effect in the relevant Cairn item and pull request. An unexplained golden-data
+change must not be merged.
+
 Runtime code lives under `src/ppg_index`. Remote I/O belongs only in
 `ppg_index.sources`; calculation and rendering accept local values and must
 remain usable with networking disabled.
