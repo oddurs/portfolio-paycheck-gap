@@ -2,13 +2,15 @@
 id: 15
 title: Cut the first reproducible historical-data release
 type: chore
-status: backlog
+status: doing
 milestone: v0.2
+assignee: Oddur Sigurdsson
+claimed: 2026-09-17
 depends_on:
 - 13
 - 14
 created: 2026-09-13
-updated: 2026-09-13
+updated: 2026-09-17
 priority: p0
 effort: s
 area: release

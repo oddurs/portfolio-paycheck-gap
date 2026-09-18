@@ -4,24 +4,11 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
 
 from ppg_index import __version__
-
-Command = Callable[[argparse.Namespace], int]
-
-
-def _pending(command: str) -> Command:
-    def run(_: argparse.Namespace) -> int:
-        print(
-            f"ppg {command}: command surface is ready; implementation is pending in v0.2",
-            file=sys.stderr,
-        )
-        return 2
-
-    return run
 
 
 def _path(value: str) -> Path:
@@ -87,6 +74,30 @@ def _check(args: argparse.Namespace) -> int:
     return 0
 
 
+def _update(args: argparse.Namespace) -> int:
+    from ppg_index.publication import build_artifacts, publish_artifacts
+    from ppg_index.sources import acquire_snapshot
+    from ppg_index.validation import PPGError
+
+    try:
+        snapshot = acquire_snapshot(
+            args.cache_dir,
+            end_year=args.end_year,
+            retrieved_at=args.retrieved_at,
+            accept_revision=args.accept_revision,
+        )
+        publication = build_artifacts(snapshot)
+        summary = publish_artifacts(args.output_dir, publication.artifacts)
+    except (OSError, ValueError, PPGError) as error:
+        print(f"ppg update failed: {error}", file=sys.stderr)
+        return 1
+    print(
+        f"updated local candidate through {summary.latest_quarter} from "
+        f"snapshot {summary.snapshot_id}; review before publication"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ppg",
@@ -123,8 +134,11 @@ def build_parser() -> argparse.ArgumentParser:
         "update", help="Fetch, build, and check without publishing automatically."
     )
     update.add_argument("--cache-dir", type=_path, default=Path("data/cache"))
-    update.add_argument("--output-dir", type=_path, default=Path("public/data"))
-    update.set_defaults(handler=_pending("update"))
+    update.add_argument("--output-dir", type=_path, default=Path("build/update"))
+    update.add_argument("--end-year", type=int, default=_current_year())
+    update.add_argument("--retrieved-at")
+    update.add_argument("--accept-revision", action="store_true")
+    update.set_defaults(handler=_update)
     return parser
 
 

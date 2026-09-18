@@ -3,13 +3,15 @@
 Repository code and source-derived data are separate works. A code license
 does not grant additional rights in source data.
 
-The JKP Global Factor Data samples in `tests/fixtures/sources/` are licensed by
+The JKP Global Factor Data snapshot under `data/`, its samples under
+`tests/fixtures/sources/`, and PPG artifacts derived from them are licensed by
 Jensen, Kelly, and Pedersen under the
 [Creative Commons Attribution-NonCommercial 4.0 International
 license](https://creativecommons.org/licenses/by-nc/4.0/). They have been
-modified by selecting rows and normalizing CSV serialization. PPG datasets and
-charts that adapt those returns are also published for noncommercial use with
-the same attribution and license restriction unless stated otherwise.
+modified by selecting rows, normalizing serialization, reconstructing a
+total-return proxy, compounding, rebasing, and charting. These materials are
+published for noncommercial use with the same attribution and license
+restriction unless stated otherwise.
 
 The Treasury-bill observations originate with the Board of Governors of the
 Federal Reserve System and are retrieved through FRED series `TB3MS`. FRED

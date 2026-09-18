@@ -14,15 +14,23 @@ measure of inequality.
 
 ## Project status
 
-Methodology v0.1 is complete. It freezes the definition, source contract,
-licensing boundary, reference calculation, sensitivity analysis, and failure
-policy. The production historical series is the next milestone; this repository
-does not yet publish a current headline reading.
+Release v0.2.0 is the first reproducible historical series. It contains 187
+quarterly observations from 1979 Q1 through 2025 Q3. The latest PPG reading is
+`4217.405914` (1980 Q1 = 100), up `7.627364%` quarter over quarter and
+`13.979511%` year over year.
+
+The reading is explicitly stale: market data exist for 2025 Q4, but BLS did
+not produce the required 2025 Q4 paycheck observation after the federal
+shutdown. The build omits that quarter instead of filling it.
 
 - [Methodology v0.1](methodology/v0.1.md)
 - [Data dictionary](methodology/data-dictionary-v0.1.md)
 - [Reference notebook](notebooks/ppg_reference.ipynb)
 - [Sensitivity and revision analysis](methodology/sensitivity-analysis.md)
+- [Historical CSV](public/data/ppg.csv)
+- [Latest reading JSON](public/data/latest.json)
+- [History chart](public/data/ppg.svg)
+- [Release notes](releases/v0.2.0.md)
 - [Roadmap](ROADMAP.md)
 
 ## Validate
@@ -82,6 +90,20 @@ uv run ppg check --snapshot-dir data --artifact-dir public/data
 ```
 
 `make artifacts` is the short form for the build command.
+
+A clean checkout reproduces and verifies the committed artifacts with one
+command:
+
+```sh
+make reproduce
+```
+
+To fetch current live inputs into an ignored review workspace, then build and
+check a local candidate without publishing it:
+
+```sh
+uv run ppg update
+```
 
 The generated files are `ppg.csv`, `latest.json`, `ppg.svg`, and
 `provenance.json`. Publication is atomic and refuses to replace a newer valid
