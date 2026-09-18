@@ -22,13 +22,9 @@ PPG has one defensible meaning: it measures the cumulative divergence between th
 
 ## v0.2 — Produce a reproducible historical index
 
-`#########·` 83% · 5 of 6 done
+`##########` 100% · 6 of 6 done
 
 A clean checkout can acquire the declared inputs, calculate every historical quarter, run verification checks, and regenerate the published artifacts with one documented command.
-
-### in progress
-
-- [ ] `0015` Cut the first reproducible historical-data release <sup>chore · p0</sup>
 
 ### done
 
@@ -37,6 +33,7 @@ A clean checkout can acquire the declared inputs, calculate every historical qua
 - [x] `0012` Implement the quarterly PPG calculation engine <sup>feature · p0</sup>
 - [x] `0013` Add calculation, fixture, and reproducibility tests <sup>chore · p0</sup>
 - [x] `0014` Generate the canonical CSV, JSON, and SVG artifacts <sup>feature · p1</sup>
+- [x] `0015` Cut the first reproducible historical-data release <sup>chore · p0</sup>
 
 ## v0.3 — Publish an automated public indicator
 
