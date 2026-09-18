@@ -1,4 +1,4 @@
-.PHONY: check format golden-update lint methodology-check package roadmap setup source-check test
+.PHONY: artifacts check format golden-update lint methodology-check package roadmap setup source-check test
 
 UV := uv
 
@@ -22,12 +22,16 @@ golden-update:
 package:
 	$(UV) build
 
+artifacts:
+	$(UV) run ppg build --snapshot-dir data --output-dir public/data
+
 check:
 	cairn check
 	cairn render --check
 	$(UV) run ruff check .
 	$(UV) run ruff format --check .
 	$(UV) run pytest
+	$(UV) run ppg check --snapshot-dir data --artifact-dir public/data
 	$(UV) run python scripts/run_reference_notebook.py
 	$(UV) run python scripts/run_methodology_tests.py
 	$(UV) run python scripts/check_methodology_docs.py

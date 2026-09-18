@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675"
+  width="1200" height="675" role="img" aria-labelledby="chart-title chart-desc"
+  data-latest-quarter="2025-Q3" data-latest-value="4217.405914"
+  data-methodology-version="0.1" data-snapshot-id="4156e87c2524a9ce">
+  <title id="chart-title">Portfolio-Paycheck Gap Index</title>
+  <desc id="chart-desc">Quarterly PPG history from 1979-Q1 through 2025-Q3. The latest value is 4217.4 index points, with 1980-Q1 equal to 100.</desc>
+  <style>
+    .bg { fill: #f8f6f0; }
+    .grid { stroke: #d9d4c8; stroke-width: 1; }
+    .axis { stroke: #4b4b47; stroke-width: 1.5; }
+    .series { fill: none; stroke: #0f766e; stroke-width: 4;
+      stroke-linejoin: round; stroke-linecap: round; }
+    .base { stroke: #b45309; stroke-width: 1.5; stroke-dasharray: 7 6; }
+    .title { fill: #17211f; font: 700 30px system-ui, sans-serif; }
+    .subtitle { fill: #4b5563; font: 16px system-ui, sans-serif; }
+    .tick { fill: #5f625e; font: 13px system-ui, sans-serif; }
+    .label { fill: #17211f; font: 600 15px system-ui, sans-serif; }
+    .note { fill: #5f625e; font: 12px system-ui, sans-serif; }
+    .latest { fill: #0f766e; font: 700 17px system-ui, sans-serif; }
+  </style>
+  <rect class="bg" width="1200" height="675"/>
+  <text x="60" y="48" class="title">Portfolio-Paycheck Gap Index</text>
+  <text x="60" y="76" class="subtitle">Quarterly index • 1980-Q1 = 100 •
+    log scale • through 2025-Q3</text>
+  <text x="60" y="99" class="note">Latest available; source gap after this quarter.</text>
+  <text x="22" y="325" class="label" transform="rotate(-90 22 325)">
+    Index level (1980-Q1 = 100)</text>
+  <line x1="92" y1="535.00" x2="1150" y2="535.00" class="grid"/><text x="78" y="540.00" text-anchor="end" class="tick">100</text><line x1="92" y1="460.58" x2="1150" y2="460.58" class="grid"/><text x="78" y="465.58" text-anchor="end" class="tick">200</text><line x1="92" y1="362.21" x2="1150" y2="362.21" class="grid"/><text x="78" y="367.21" text-anchor="end" class="tick">500</text><line x1="92" y1="287.79" x2="1150" y2="287.79" class="grid"/><text x="78" y="292.79" text-anchor="end" class="tick">1,000</text><line x1="92" y1="213.37" x2="1150" y2="213.37" class="grid"/><text x="78" y="218.37" text-anchor="end" class="tick">2,000</text><line x1="92" y1="115.00" x2="1150" y2="115.00" class="grid"/><text x="78" y="120.00" text-anchor="end" class="tick">5,000</text>
+  <line x1="92" y1="535" x2="1150" y2="535" class="axis"/>
+  <line x1="92" y1="115" x2="92" y2="535" class="axis"/>
+  <line x1="115.00" y1="535" x2="115.00" y2="541" class="axis"/><text x="115.00" y="561" text-anchor="middle" class="tick">1980</text><line x1="345.00" y1="535" x2="345.00" y2="541" class="axis"/><text x="345.00" y="561" text-anchor="middle" class="tick">1990</text><line x1="575.00" y1="535" x2="575.00" y2="541" class="axis"/><text x="575.00" y="561" text-anchor="middle" class="tick">2000</text><line x1="805.00" y1="535" x2="805.00" y2="541" class="axis"/><text x="805.00" y="561" text-anchor="middle" class="tick">2010</text><line x1="1035.00" y1="535" x2="1035.00" y2="541" class="axis"/><text x="1035.00" y="561" text-anchor="middle" class="tick">2020</text><line x1="1150.00" y1="535" x2="1150.00" y2="541" class="axis"/><text x="1150.00" y="561" text-anchor="middle" class="tick">2025</text>
+  <line x1="92" y1="535.00" x2="1150" y2="535.00" class="base"/>
+  <path d="M 92.00,533.58 L
+    97.69,532.38 L
+    103.38,525.48 L
+    109.06,526.00 L
+    114.75,535.00 L
+    120.44,520.69 L
+    126.13,511.17 L
+    131.82,502.76 L
+    137.51,502.92 L
+    143.19,504.77 L
+    148.88,520.45 L
+    154.57,514.97 L
+    160.26,525.12 L
+    165.95,528.33 L
+    171.63,517.32 L
+    177.32,499.26 L
+    183.01,488.95 L
+    188.70,476.47 L
+    194.39,479.46 L
+    200.08,480.42 L
+    205.76,486.32 L
+    211.45,489.89 L
+    217.14,481.76 L
+    222.83,482.47 L
+    228.52,472.09 L
+    234.20,468.80 L
+    239.89,473.03 L
+    245.58,457.30 L
+    251.27,443.92 L
+    256.96,439.59 L
+    262.65,448.58 L
+    268.33,446.28 L
+    274.02,425.92 L
+    279.71,423.83 L
+    285.40,418.95 L
+    291.09,447.28 L
+    296.77,439.79 L
+    302.46,432.87 L
+    308.15,434.03 L
+    313.84,432.25 L
+    319.53,425.21 L
+    325.22,417.92 L
+    330.90,408.40 L
+    336.59,408.95 L
+    342.28,412.94 L
+    347.97,408.14 L
+    353.66,425.57 L
+    359.34,418.30 L
+    365.03,404.27 L
+    370.72,403.69 L
+    376.41,398.13 L
+    382.10,390.02 L
+    387.78,393.17 L
+    393.47,393.30 L
+    399.16,391.22 L
+    404.85,383.62 L
+    410.54,380.79 L
+    416.23,381.27 L
+    421.91,378.12 L
+    427.60,376.64 L
+    433.29,380.39 L
+    438.98,382.14 L
+    444.67,375.95 L
+    450.35,377.63 L
+    456.04,368.81 L
+    461.73,360.16 L
+    467.42,352.50 L
+    473.11,347.14 L
+    478.80,341.58 L
+    484.48,337.67 L
+    490.17,335.72 L
+    495.86,329.30 L
+    501.55,329.34 L
+    507.24,313.19 L
+    512.92,303.45 L
+    518.61,302.83 L
+    524.30,290.77 L
+    529.99,289.22 L
+    535.68,304.98 L
+    541.37,286.43 L
+    547.05,281.35 L
+    552.74,275.71 L
+    558.43,283.44 L
+    564.12,266.41 L
+    569.81,262.42 L
+    575.49,268.55 L
+    581.18,269.66 L
+    586.87,282.12 L
+    592.56,297.98 L
+    598.25,291.89 L
+    603.94,312.28 L
+    609.62,299.54 L
+    615.31,299.71 L
+    621.00,314.65 L
+    626.69,334.63 L
+    632.38,326.55 L
+    638.06,330.69 L
+    643.75,314.45 L
+    649.44,310.74 L
+    655.13,298.14 L
+    660.82,296.42 L
+    666.51,297.09 L
+    672.19,297.83 L
+    677.88,288.98 L
+    683.57,291.17 L
+    689.26,288.90 L
+    694.95,284.33 L
+    700.63,282.98 L
+    706.32,277.62 L
+    712.01,279.79 L
+    717.70,277.76 L
+    723.39,270.66 L
+    729.08,269.73 L
+    734.76,263.56 L
+    740.45,262.15 L
+    746.14,265.50 L
+    751.83,278.23 L
+    757.52,280.45 L
+    763.20,292.27 L
+    768.89,321.33 L
+    774.58,332.97 L
+    780.27,315.88 L
+    785.96,300.14 L
+    791.65,294.88 L
+    797.33,288.80 L
+    803.02,300.87 L
+    808.71,289.42 L
+    814.40,277.99 L
+    820.09,271.41 L
+    825.77,272.70 L
+    831.46,292.38 L
+    837.15,280.87 L
+    842.84,268.42 L
+    848.53,273.91 L
+    854.22,266.20 L
+    859.90,266.43 L
+    865.59,255.42 L
+    871.28,254.10 L
+    876.97,247.09 L
+    882.66,237.26 L
+    888.34,236.50 L
+    894.03,230.16 L
+    899.72,233.08 L
+    905.41,228.32 L
+    911.10,227.51 L
+    916.78,227.15 L
+    922.47,237.05 L
+    928.16,232.85 L
+    933.85,232.15 L
+    939.54,230.09 L
+    945.23,225.77 L
+    950.91,222.57 L
+    956.60,217.95 L
+    962.29,215.31 L
+    967.98,210.24 L
+    973.67,202.29 L
+    979.35,205.42 L
+    985.04,202.23 L
+    990.73,196.26 L
+    996.42,214.05 L
+    1002.11,200.18 L
+    1007.80,197.62 L
+    1013.48,197.95 L
+    1019.17,190.08 L
+    1024.86,217.25 L
+    1030.55,201.31 L
+    1036.24,190.18 L
+    1041.92,173.34 L
+    1047.61,167.14 L
+    1053.30,160.07 L
+    1058.99,161.12 L
+    1064.68,153.45 L
+    1070.37,161.98 L
+    1076.05,183.70 L
+    1081.74,190.44 L
+    1087.43,184.06 L
+    1093.12,177.84 L
+    1098.81,170.19 L
+    1104.49,174.81 L
+    1110.18,164.55 L
+    1115.87,154.07 L
+    1121.56,152.32 L
+    1127.25,147.32 L
+    1132.94,146.09 L
+    1138.62,151.89 L
+    1144.31,141.17 L
+    1150.00,133.27" class="series"/>
+  <circle cx="1150.00" cy="133.27" r="6" fill="#0f766e"/>
+  <text x="1142.00" y="120.27"
+    text-anchor="end" class="latest">4217.4</text>
+  <text x="60" y="606" class="note">Units: PPG index points.
+    Base level: 1980-Q1 = 100. Methodology v0.1.</text>
+  <text x="60" y="628" class="note">Sources: JKP Global Factor Data;
+    Federal Reserve H.15 via FRED; BLS LES1252881500.</text>
+  <text x="60" y="650" class="note">JKP-derived chart: CC BY-NC 4.0,
+    modified, noncommercial. Snapshot 4156e87c2524a9ce.</text>
+</svg>
