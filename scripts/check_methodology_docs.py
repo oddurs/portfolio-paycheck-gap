@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 METHODOLOGY = ROOT / "methodology"
 DOCUMENTS = [
     ROOT / "README.md",
+    ROOT / "docs" / "interpretation-guide.md",
     METHODOLOGY / "README.md",
     METHODOLOGY / "v0.1.md",
     METHODOLOGY / "data-dictionary-v0.1.md",
@@ -19,9 +20,21 @@ DOCUMENTS = [
 
 REQUIRED_SECTIONS = {
     "README.md": [
-        "## Project status",
-        "## Validate",
+        "## Current reading",
+        "## How to read PPG",
+        "## What PPG does not say",
+        "## Data and methodology",
+        "## Reproduce and validate",
+        "## Cite",
         "## Data use",
+    ],
+    "docs/interpretation-guide.md": [
+        "## The question PPG answers",
+        "## Levels: 100, above 100, and below 100",
+        "## Level versus quarterly and annual change",
+        "## Claims the index cannot support",
+        "## Responsible reporting checklist",
+        "## Data, provenance, and citation",
     ],
     "methodology/v0.1.md": [
         "## 1. Purpose",
