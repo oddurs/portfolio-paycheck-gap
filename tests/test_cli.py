@@ -26,7 +26,7 @@ def test_each_command_has_help(command: str) -> None:
     assert "usage:" in result.stdout
 
 
-@pytest.mark.parametrize("command", ["build", "check", "update"])
+@pytest.mark.parametrize("command", ["update"])
 def test_scaffolded_commands_fail_explicitly(
     command: str, capsys: pytest.CaptureFixture[str]
 ) -> None:

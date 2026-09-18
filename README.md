@@ -72,6 +72,21 @@ ppg update  # fetch, build, and check without automatic publication
 Run `ppg COMMAND --help` for command-specific paths and options. Fetching is
 isolated in `ppg_index.sources`; calculation and rendering remain offline.
 
+Build the canonical dataset, latest-reading payload, chart, and provenance
+record entirely from the reviewed local snapshot, then verify that all four
+agree byte-for-byte with a fresh calculation:
+
+```sh
+uv run ppg build --snapshot-dir data --output-dir public/data
+uv run ppg check --snapshot-dir data --artifact-dir public/data
+```
+
+`make artifacts` is the short form for the build command.
+
+The generated files are `ppg.csv`, `latest.json`, `ppg.svg`, and
+`provenance.json`. Publication is atomic and refuses to replace a newer valid
+reading with an older input.
+
 ## Data use
 
 The selected JKP market data is CC BY-NC 4.0. PPG datasets and charts derived

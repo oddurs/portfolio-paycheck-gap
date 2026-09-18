@@ -1,0 +1,15 @@
+{
+  "base": "1980-Q1 = 100",
+  "changes": {
+    "quarter_over_quarter_percent": 7.627364,
+    "year_over_year_percent": 13.979511
+  },
+  "methodology_version": "0.1",
+  "observation_date": "2025-09-30",
+  "observation_period": "2025-Q3",
+  "provenance": "provenance.json",
+  "snapshot_id": "4156e87c2524a9ce",
+  "stale": true,
+  "unit": "index points",
+  "value": 4217.405914
+}

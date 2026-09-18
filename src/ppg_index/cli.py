@@ -49,6 +49,44 @@ def _fetch(args: argparse.Namespace) -> int:
     return 0
 
 
+def _build(args: argparse.Namespace) -> int:
+    from ppg_index.publication import build_artifacts, publish_artifacts
+    from ppg_index.validation import PPGError
+
+    try:
+        publication = build_artifacts(args.snapshot_dir)
+        summary = publish_artifacts(args.output_dir, publication.artifacts)
+    except (OSError, ValueError, PPGError) as error:
+        print(f"ppg build failed: {error}", file=sys.stderr)
+        return 1
+    print(
+        f"built {summary.rows} quarters through {summary.latest_quarter} "
+        f"from snapshot {summary.snapshot_id}"
+    )
+    return 0
+
+
+def _check(args: argparse.Namespace) -> int:
+    from ppg_index.publication import build_artifacts
+    from ppg_index.validation import PPGError, validate_artifact_directory
+
+    try:
+        expected = build_artifacts(args.snapshot_dir)
+        actual = validate_artifact_directory(args.artifact_dir)
+        for name, data in expected.artifacts.files().items():
+            if (args.artifact_dir / name).read_bytes() != data:
+                raise PPGError(f"artifact differs from reproducible build: {name}")
+        if actual != expected.summary:
+            raise PPGError("artifact summary differs from reproducible build")
+    except (OSError, ValueError, PPGError) as error:
+        print(f"ppg check failed: {error}", file=sys.stderr)
+        return 1
+    print(
+        f"ok: {actual.rows} quarters through {actual.latest_quarter}; all canonical artifacts agree"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ppg",
@@ -72,14 +110,14 @@ def build_parser() -> argparse.ArgumentParser:
     fetch.set_defaults(handler=_fetch)
 
     build = commands.add_parser("build", help="Build index artifacts from cached snapshots.")
-    build.add_argument("--snapshot-dir", type=_path, default=Path("data/cache/current"))
+    build.add_argument("--snapshot-dir", type=_path, default=Path("data"))
     build.add_argument("--output-dir", type=_path, default=Path("public/data"))
-    build.set_defaults(handler=_pending("build"))
+    build.set_defaults(handler=_build)
 
     check = commands.add_parser("check", help="Validate snapshots, calculations, and artifacts.")
-    check.add_argument("--snapshot-dir", type=_path, default=Path("data/cache/current"))
+    check.add_argument("--snapshot-dir", type=_path, default=Path("data"))
     check.add_argument("--artifact-dir", type=_path, default=Path("public/data"))
-    check.set_defaults(handler=_pending("check"))
+    check.set_defaults(handler=_check)
 
     update = commands.add_parser(
         "update", help="Fetch, build, and check without publishing automatically."
