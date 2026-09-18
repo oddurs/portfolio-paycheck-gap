@@ -7,6 +7,7 @@ import os
 import shutil
 import tempfile
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .calculation import CalculationResult, calculate_ppg, parse_normalized_inputs
@@ -35,9 +36,30 @@ def resolve_snapshot(path: Path) -> Path:
     return current
 
 
-def build_artifacts(snapshot_path: Path) -> PublicationResult:
+def _pinned_generated_at(cache_root: Path) -> str | None:
+    pointer = cache_root / "current.json"
+    if not pointer.is_file():
+        return None
+    try:
+        value = json.loads(pointer.read_bytes()).get("artifact_generated_at")
+    except (OSError, json.JSONDecodeError, AttributeError) as error:
+        raise PPGError("current snapshot pointer is malformed") from error
+    if value is not None and not isinstance(value, str):
+        raise PPGError("artifact_generated_at must be an ISO 8601 string")
+    return value
+
+
+def build_artifacts(
+    snapshot_path: Path,
+    *,
+    generated_at: str | None = None,
+) -> PublicationResult:
     """Build every artifact offline from a checksum-verified snapshot."""
 
+    pinned = (
+        None if (snapshot_path / "manifest.json").is_file() else _pinned_generated_at(snapshot_path)
+    )
+    generated_at = generated_at or pinned or datetime.now(UTC).replace(microsecond=0).isoformat()
     snapshot = resolve_snapshot(snapshot_path)
     manifest = verify_snapshot(snapshot)
     normalized = snapshot / "normalized"
@@ -50,7 +72,7 @@ def build_artifacts(snapshot_path: Path) -> PublicationResult:
     except OSError as error:
         raise PPGError(f"cannot read normalized inputs from {snapshot}") from error
     calculation = calculate_ppg(*inputs)
-    artifacts = render_artifacts(calculation, manifest)
+    artifacts = render_artifacts(calculation, manifest, generated_at)
     summary = validate_artifacts(artifacts)
     return PublicationResult(calculation, artifacts, summary)
 

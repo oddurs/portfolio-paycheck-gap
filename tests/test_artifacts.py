@@ -51,7 +51,7 @@ def test_artifacts_match_public_contract_and_latest_reading() -> None:
         "observation_date": "2025-09-30",
         "observation_period": "2025-Q3",
         "provenance": "provenance.json",
-        "snapshot_id": "4156e87c2524a9ce",
+        "snapshot_id": "2266e3ee4151567d",
         "stale": True,
         "unit": "index points",
         "value": 4217.405914,
@@ -76,11 +76,29 @@ def test_repeated_builds_are_byte_identical() -> None:
     assert first.files() == second.files()
 
 
+def test_generation_and_retrieval_times_are_distinct_and_ordered() -> None:
+    provenance = json.loads(canonical_publication().artifacts.provenance_json)
+    assert provenance["market_retrieved_at"] == "2026-09-18T02:57:09Z"
+    assert provenance["generated_at"] == "2026-09-18T02:57:21Z"
+    assert provenance["market_retrieved_at"] < provenance["generated_at"]
+    assert provenance["paycheck_sha256"] == (
+        "842f00101c525711ef8689bf1d730c4fb7dddfeb8f23bacc13229687098fa1fc"
+    )
+
+    publication = canonical_publication()
+    with pytest.raises(RenderingError, match="cannot precede source retrieval"):
+        render_artifacts(
+            publication.calculation,
+            canonical_manifest(),
+            "2020-01-01T00:00:00Z",
+        )
+
+
 def test_empty_result_cannot_render_or_publish() -> None:
     publication = canonical_publication()
     empty = replace(publication.calculation, observations=())
     with pytest.raises(RenderingError, match="empty"):
-        render_artifacts(empty, canonical_manifest())
+        render_artifacts(empty, canonical_manifest(), "2030-01-01T00:00:00Z")
 
 
 def test_older_result_cannot_overwrite_newer_valid_artifacts(tmp_path: Path) -> None:
@@ -101,7 +119,7 @@ def test_older_result_cannot_overwrite_newer_valid_artifacts(tmp_path: Path) -> 
         latest_complete_quarter="2026-Q1",
         stale=False,
     )
-    newer = render_artifacts(newer_result, canonical_manifest())
+    newer = render_artifacts(newer_result, canonical_manifest(), "2030-01-01T00:00:00Z")
     output = tmp_path / "public-data"
     publish_artifacts(output, newer)
     before = {path.name: path.read_bytes() for path in output.iterdir()}

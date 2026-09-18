@@ -13,6 +13,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
     steps:
       - name: Check out repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.0.0
@@ -21,7 +25,7 @@ jobs:
         uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7.2.1
         with:
           version: 0.10.6
-          python-version: "3.13"
+          python-version: ${{ matrix.python-version }}
           enable-cache: true
 
       - name: Install Cairn

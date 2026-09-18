@@ -1,40 +1,40 @@
 {
-  "generated_at": "2026-09-17T16:00:00Z",
+  "generated_at": "2026-09-18T02:57:21Z",
   "latest_quarter": "2025-Q3",
-  "market_retrieved_at": "2026-09-17T16:00:00Z",
+  "market_retrieved_at": "2026-09-18T02:57:09Z",
   "market_sha256": "8c69cc848ebb447f8c47346a4b3eabed65fac03f0b895b04319f3828e3b6e79f",
   "methodology_version": "0.1",
-  "paycheck_retrieved_at": "2026-09-17T16:00:00Z",
-  "paycheck_sha256": "56e651dc6752c596c5a558a76c11fa8d790516feabd0f5c86d13ea528053e3e7",
-  "snapshot_id": "4156e87c2524a9ce",
+  "paycheck_retrieved_at": "2026-09-18T02:57:09Z",
+  "paycheck_sha256": "842f00101c525711ef8689bf1d730c4fb7dddfeb8f23bacc13229687098fa1fc",
+  "snapshot_id": "2266e3ee4151567d",
   "source_notice": "Market: Jensen, Kelly, and Pedersen Global Factor Data, modified, CC BY-NC 4.0 (noncommercial). Treasury: Board of Governors of the Federal Reserve System via FRED TB3MS. Paycheck: U.S. Bureau of Labor Statistics LES1252881500. BLS.gov cannot vouch for the data or analyses derived from these data after the data have been retrieved from BLS.gov.",
   "sources": [
     {
       "identifier": "usa / mkt / monthly / vw",
       "name": "market",
-      "raw_sha256": "8c69cc848ebb447f8c47346a4b3eabed65fac03f0b895b04319f3828e3b6e79f",
+      "raw_bundle_sha256": "89ef386079a487e6fcc0313a5bc3ce2fa70e07cd6c1e45f79ca2425859de0e3d",
       "release_period": "2025-12",
-      "retrieved_at": "2026-09-17T16:00:00Z",
+      "retrieved_at": "2026-09-18T02:57:09Z",
       "url": "https://jkpfactors-data.s3.amazonaws.com/public/%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
     },
     {
       "identifier": "H15/H15/RIFSGFSM03_N.M (FRED TB3MS)",
       "name": "treasury",
-      "raw_sha256": "ebf04b1ae5bc5729ba3bb2b35dbb0e0c5e22dace36bea0c02632782d625ae6ab",
+      "raw_bundle_sha256": "587b9ce380934034d0f63fcbf300030c6608d4a9cabe8736233c334a144bdd08",
       "release_period": "2026-08",
-      "retrieved_at": "2026-09-17T16:00:00Z",
+      "retrieved_at": "2026-09-18T02:57:09Z",
       "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS"
     },
     {
       "identifier": "LES1252881500",
       "name": "paycheck",
-      "raw_sha256": "56e651dc6752c596c5a558a76c11fa8d790516feabd0f5c86d13ea528053e3e7",
+      "raw_bundle_sha256": "842f00101c525711ef8689bf1d730c4fb7dddfeb8f23bacc13229687098fa1fc",
       "release_period": "2026-Q2",
-      "retrieved_at": "2026-09-17T16:00:00Z",
+      "retrieved_at": "2026-09-18T02:57:09Z",
       "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/LES1252881500"
     }
   ],
   "stale": true,
-  "treasury_retrieved_at": "2026-09-17T16:00:00Z",
+  "treasury_retrieved_at": "2026-09-18T02:57:09Z",
   "treasury_sha256": "ebf04b1ae5bc5729ba3bb2b35dbb0e0c5e22dace36bea0c02632782d625ae6ab"
 }

@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import io
 import json
 import math
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from html import escape
 
 from .calculation import BASE_QUARTER, CalculationResult, QuarterlyObservation
@@ -76,7 +76,10 @@ def _source_map(manifest: dict[str, object]) -> dict[str, dict[str, object]]:
     return result
 
 
-def _raw_digest(source: dict[str, object]) -> str:
+def _raw_bundle_digest(source: dict[str, object]) -> str:
+    bundle = source.get("raw_bundle_sha256")
+    if isinstance(bundle, str) and len(bundle) == 64:
+        return bundle
     raw = source.get("raw")
     if not isinstance(raw, list) or not raw:
         raise RenderingError("source manifest has no raw checksum")
@@ -87,7 +90,30 @@ def _raw_digest(source: dict[str, object]) -> str:
         digests.append(str(item["sha256"]))
     if len(digests) == 1:
         return digests[0]
-    return hashlib.sha256("\n".join(digests).encode()).hexdigest()
+    raise RenderingError("multi-file source manifest lacks a raw bundle checksum")
+
+
+def _single_raw_digest(source: dict[str, object]) -> str:
+    raw = source.get("raw")
+    if not isinstance(raw, list) or len(raw) != 1 or not isinstance(raw[0], dict):
+        raise RenderingError("source does not contain exactly one raw response")
+    digest = raw[0].get("sha256")
+    if not isinstance(digest, str):
+        raise RenderingError("source manifest has an invalid raw checksum")
+    return digest
+
+
+def _utc_timestamp(value: object, label: str) -> tuple[str, datetime]:
+    if not isinstance(value, str):
+        raise RenderingError(f"{label} must be an ISO 8601 timestamp")
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise RenderingError(f"{label} must be an ISO 8601 timestamp") from error
+    if parsed.tzinfo is None:
+        raise RenderingError(f"{label} must include a timezone")
+    utc = parsed.astimezone(UTC).replace(microsecond=0)
+    return utc.isoformat().replace("+00:00", "Z"), utc
 
 
 def render_csv(result: CalculationResult) -> bytes:
@@ -137,15 +163,21 @@ def render_latest_json(result: CalculationResult, snapshot_id: str) -> bytes:
     )
 
 
-def render_provenance(result: CalculationResult, manifest: dict[str, object]) -> bytes:
+def render_provenance(
+    result: CalculationResult,
+    manifest: dict[str, object],
+    generated_at: str,
+) -> bytes:
     if not result.observations:
         raise RenderingError("cannot render an empty result")
     sources = _source_map(manifest)
-    retrieved_at = manifest.get("retrieved_at")
     snapshot_id = manifest.get("snapshot_id")
-    if not isinstance(retrieved_at, str) or not isinstance(snapshot_id, str):
+    if not isinstance(snapshot_id, str):
         raise RenderingError("source manifest lacks retrieval time or snapshot identity")
-    generated_at = retrieved_at.replace("+00:00", "Z")
+    retrieved_at, retrieved_time = _utc_timestamp(manifest.get("retrieved_at"), "retrieved_at")
+    generated_at, generated_time = _utc_timestamp(generated_at, "generated_at")
+    if generated_time < retrieved_time:
+        raise RenderingError("generated_at cannot precede source retrieval")
     source_records = []
     for name in ("market", "treasury", "paycheck"):
         source = sources[name]
@@ -153,9 +185,9 @@ def render_provenance(result: CalculationResult, manifest: dict[str, object]) ->
             {
                 "identifier": source.get("identifier"),
                 "name": name,
-                "raw_sha256": _raw_digest(source),
+                "raw_bundle_sha256": _raw_bundle_digest(source),
                 "release_period": source.get("release_period"),
-                "retrieved_at": generated_at,
+                "retrieved_at": retrieved_at,
                 "url": source.get("url"),
             }
         )
@@ -163,17 +195,17 @@ def render_provenance(result: CalculationResult, manifest: dict[str, object]) ->
         {
             "generated_at": generated_at,
             "latest_quarter": result.latest_complete_quarter,
-            "market_retrieved_at": generated_at,
-            "market_sha256": _raw_digest(sources["market"]),
+            "market_retrieved_at": retrieved_at,
+            "market_sha256": _single_raw_digest(sources["market"]),
             "methodology_version": METHODOLOGY_VERSION,
-            "paycheck_retrieved_at": generated_at,
-            "paycheck_sha256": _raw_digest(sources["paycheck"]),
+            "paycheck_retrieved_at": retrieved_at,
+            "paycheck_sha256": _raw_bundle_digest(sources["paycheck"]),
             "snapshot_id": snapshot_id,
             "source_notice": SOURCE_NOTICE,
             "sources": source_records,
             "stale": result.stale,
-            "treasury_retrieved_at": generated_at,
-            "treasury_sha256": _raw_digest(sources["treasury"]),
+            "treasury_retrieved_at": retrieved_at,
+            "treasury_sha256": _single_raw_digest(sources["treasury"]),
         }
     )
 
@@ -277,7 +309,11 @@ def render_svg(result: CalculationResult, snapshot_id: str) -> bytes:
     return svg.encode("utf-8")
 
 
-def render_artifacts(result: CalculationResult, manifest: dict[str, object]) -> ArtifactSet:
+def render_artifacts(
+    result: CalculationResult,
+    manifest: dict[str, object],
+    generated_at: str,
+) -> ArtifactSet:
     """Render every canonical output from one validated result and manifest."""
 
     if not result.observations:
@@ -292,7 +328,7 @@ def render_artifacts(result: CalculationResult, manifest: dict[str, object]) -> 
         csv=render_csv(result),
         latest_json=render_latest_json(result, snapshot_id),
         svg=render_svg(result, snapshot_id),
-        provenance_json=render_provenance(result, manifest),
+        provenance_json=render_provenance(result, manifest, generated_at),
         latest_quarter=latest.quarter,
         latest_ppg=latest.ppg,
     )

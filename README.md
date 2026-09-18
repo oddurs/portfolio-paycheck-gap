@@ -14,7 +14,7 @@ measure of inequality.
 
 ## Project status
 
-Release v0.2.0 is the first reproducible historical series. It contains 187
+Release v0.2.1 is the corrected first reproducible historical series. It contains 187
 quarterly observations from 1979 Q1 through 2025 Q3. The latest PPG reading is
 `4217.405914` (1980 Q1 = 100), up `7.627364%` quarter over quarter and
 `13.979511%` year over year.
@@ -30,7 +30,7 @@ shutdown. The build omits that quarter instead of filling it.
 - [Historical CSV](public/data/ppg.csv)
 - [Latest reading JSON](public/data/latest.json)
 - [History chart](public/data/ppg.svg)
-- [Release notes](releases/v0.2.0.md)
+- [Release notes](releases/v0.2.1.md)
 - [Roadmap](ROADMAP.md)
 
 ## Validate

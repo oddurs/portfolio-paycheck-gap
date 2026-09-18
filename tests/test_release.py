@@ -10,9 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_release_versions_are_frozen() -> None:
-    assert __version__ == "0.2.0"
+    assert __version__ == "0.2.1"
     assert METHODOLOGY_VERSION == "0.1"
-    notes = (ROOT / "releases/v0.2.0.md").read_text()
+    notes = (ROOT / "releases/v0.2.1.md").read_text()
     assert "1979 Q1 through 2025 Q3" in notes
     assert "stale" in notes
     assert "CC BY-NC 4.0" in notes
@@ -25,9 +25,9 @@ def test_release_artifact_checksums() -> None:
         "ppg.svg": ROOT / "public/data/ppg.svg",
         "provenance.json": ROOT / "public/data/provenance.json",
         "v0.1.md": ROOT / "methodology/v0.1.md",
-        "manifest.json": ROOT / "data/snapshots/4156e87c2524a9ce/manifest.json",
+        "manifest.json": ROOT / "data/snapshots/2266e3ee4151567d/manifest.json",
     }
-    lines = (ROOT / "releases/v0.2.0-SHA256SUMS").read_text().splitlines()
+    lines = (ROOT / "releases/v0.2.1-SHA256SUMS").read_text().splitlines()
     declared = dict(line.split("  ", 1)[::-1] for line in lines)
     assert set(declared) == set(files)
     for name, path in files.items():

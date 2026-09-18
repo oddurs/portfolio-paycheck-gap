@@ -118,7 +118,7 @@ The companion JSON metadata applies to the artifact as a whole.
 | `treasury_retrieved_at` | string | ISO 8601 UTC timestamp | per source vintage | no | Second precision, suffix `Z` |
 | `treasury_sha256` | string | 64 lowercase hexadecimal characters | per source vintage | no | Hash of raw delivered bytes |
 | `paycheck_retrieved_at` | string | ISO 8601 UTC timestamp | per source vintage | no | Second precision, suffix `Z` |
-| `paycheck_sha256` | string | 64 lowercase hexadecimal characters | per source vintage | no | Hash of canonical raw-response bundle |
+| `paycheck_sha256` | string | 64 lowercase hexadecimal characters | per source vintage | no | Hash of canonical length-framed raw-response bundle; framing is specified in `data/README.md` |
 | `source_notice` | string | attribution and BLS disclaimer | per release | no | Exact release notice, UTF-8 |
 
 Artifact encoding and filenames may be elaborated by a later publication
