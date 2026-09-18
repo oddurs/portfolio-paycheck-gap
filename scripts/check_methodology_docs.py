@@ -79,6 +79,8 @@ EXPECTED_FIELDS = {
     "market_component",
     "paycheck_component",
     "ppg",
+    "ppg_change_qoq_percent",
+    "ppg_change_yoy_percent",
     "methodology_version",
     "generated_at",
     "latest_quarter",
