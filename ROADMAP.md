@@ -63,9 +63,9 @@ PPG graduates from an interesting chart to a maintained public benchmark with ex
 
 ## Unscheduled
 
-`··········` 0% · 0 of 1 done
+`##########` 100% · 1 of 1 done
 
-### in progress
+### done
 
-- [ ] `0026` Harden release provenance and compatibility claims <sup>bug · p0</sup>
+- [x] `0026` Harden release provenance and compatibility claims <sup>bug · p0</sup>
 
