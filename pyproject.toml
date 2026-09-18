@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ppg-index"
-version = "0.2.0.dev0"
+version = "0.2.0"
 description = "Reproducible Portfolio–Paycheck Gap Index"
 readme = "README.md"
 requires-python = ">=3.11"

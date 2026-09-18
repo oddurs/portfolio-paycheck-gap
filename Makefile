@@ -1,4 +1,4 @@
-.PHONY: artifacts check format golden-update lint methodology-check package roadmap setup source-check test
+.PHONY: artifacts check format golden-update lint methodology-check package reproduce roadmap setup source-check test
 
 UV := uv
 
@@ -24,6 +24,12 @@ package:
 
 artifacts:
 	$(UV) run ppg build --snapshot-dir data --output-dir public/data
+
+reproduce:
+	$(UV) sync --locked --all-groups
+	$(UV) run ppg build --snapshot-dir data --output-dir public/data
+	$(UV) run ppg check --snapshot-dir data --artifact-dir public/data
+	git diff --exit-code -- public/data
 
 check:
 	cairn check

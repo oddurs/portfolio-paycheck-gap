@@ -26,7 +26,7 @@ PPG has one defensible meaning: it measures the cumulative divergence between th
 
 A clean checkout can acquire the declared inputs, calculate every historical quarter, run verification checks, and regenerate the published artifacts with one documented command.
 
-### backlog
+### in progress
 
 - [ ] `0015` Cut the first reproducible historical-data release <sup>chore · p0</sup>
 
