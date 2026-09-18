@@ -45,6 +45,11 @@ Runtime code lives under `src/ppg_index`. Remote I/O belongs only in
 `ppg_index.sources`; calculation and rendering accept local values and must
 remain usable with networking disabled.
 
+Source acquisition writes immutable, content-addressed snapshots. Never edit a
+snapshot in place or replace `data/current.json` by hand. Fetch a candidate to
+`data/cache`, review any reported historical movement, and only then promote a
+new snapshot and its manifest in the Cairn item that explains the change.
+
 ## Commits
 
 Use an imperative Conventional Commit subject with a scope when useful, ending

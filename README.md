@@ -42,6 +42,18 @@ measurements:
 make source-check
 ```
 
+The reviewed full-source vintage is committed under [`data/`](data/README.md),
+including exact raw responses, normalized inputs, and a SHA-256 provenance
+manifest. To acquire a new candidate without changing the reviewed snapshot:
+
+```sh
+uv run ppg fetch --cache-dir data/cache
+```
+
+The fetch fails on schema, identity, unit, date, coverage, uniqueness, or
+overlapping-value changes. A historical revision requires inspection and an
+explicit `--accept-revision` run.
+
 The project backlog and milestone state live in plain Markdown through
 [Cairn](https://github.com/oddurs/cairn). Run `cairn roadmap` or `cairn next`
 to inspect the work.

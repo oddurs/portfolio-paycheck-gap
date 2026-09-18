@@ -1,0 +1,103 @@
+{
+  "parser_version": "1",
+  "retrieved_at": "2026-09-17T16:00:00+00:00",
+  "schema_version": 1,
+  "snapshot_id": "4156e87c2524a9ce",
+  "sources": [
+    {
+      "coverage": {
+        "first": "1926-01",
+        "last": "2025-12",
+        "rows": 1200
+      },
+      "identifier": "usa / mkt / monthly / vw",
+      "name": "market",
+      "normalized": {
+        "bytes": 34672,
+        "path": "normalized/market.csv",
+        "sha256": "b5c751e18a92982eb148682bbd34cecedeec39c09e9789b8c0820ebb68d8ead8"
+      },
+      "publisher": "Jensen, Kelly, and Pedersen Global Factor Data",
+      "raw": [
+        {
+          "bytes": 19492,
+          "path": "raw/jkp-usa-mkt-monthly-vw.zip",
+          "sha256": "8c69cc848ebb447f8c47346a4b3eabed65fac03f0b895b04319f3828e3b6e79f"
+        }
+      ],
+      "release_period": "2025-12",
+      "units": "decimal monthly excess return",
+      "url": "https://jkpfactors-data.s3.amazonaws.com/public/%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
+    },
+    {
+      "coverage": {
+        "first": "1934-01",
+        "last": "2026-08",
+        "rows": 1112
+      },
+      "identifier": "H15/H15/RIFSGFSM03_N.M (FRED TB3MS)",
+      "name": "treasury",
+      "normalized": {
+        "bytes": 14518,
+        "path": "normalized/treasury.csv",
+        "sha256": "a84c974b40cddcc1362553d4d820e96a28efefb9b7fa804c1a9d3a15685c6671"
+      },
+      "publisher": "Board of Governors of the Federal Reserve System via FRED",
+      "raw": [
+        {
+          "bytes": 17849,
+          "path": "raw/fred-tb3ms.csv",
+          "sha256": "ebf04b1ae5bc5729ba3bb2b35dbb0e0c5e22dace36bea0c02632782d625ae6ab"
+        }
+      ],
+      "release_period": "2026-08",
+      "units": "percent per year, discount basis",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS"
+    },
+    {
+      "coverage": {
+        "first": "1979-Q1",
+        "last": "2026-Q2",
+        "rows": 190
+      },
+      "identifier": "LES1252881500",
+      "name": "paycheck",
+      "normalized": {
+        "bytes": 2632,
+        "path": "normalized/paycheck.csv",
+        "sha256": "0a2ba91eee6e40767e0ca5b667959dddf3d4fb9033a690aeba0c198417b8e22d"
+      },
+      "publisher": "US Bureau of Labor Statistics",
+      "raw": [
+        {
+          "bytes": 3686,
+          "path": "raw/bls-LES1252881500-1979-1988.json",
+          "sha256": "0fd6856d78b0178e03e41ed67aac486bda14822f292fde06f37cbc30a038aa06"
+        },
+        {
+          "bytes": 3685,
+          "path": "raw/bls-LES1252881500-1989-1998.json",
+          "sha256": "08ec23b04fed0aedf8c2613ffe9cf2f42fa22b668551c1807aac44dc5a8f2192"
+        },
+        {
+          "bytes": 3685,
+          "path": "raw/bls-LES1252881500-1999-2008.json",
+          "sha256": "86e4f5fc1147a736c0fbced0ae75a915f7a6165d3d49aeb5e02f921e0e233a48"
+        },
+        {
+          "bytes": 3685,
+          "path": "raw/bls-LES1252881500-2009-2018.json",
+          "sha256": "8a550209901bab9f4dfa0f1e6bb62c80cd8ddfd5a74e11df3488e94d34d78cc6"
+        },
+        {
+          "bytes": 2966,
+          "path": "raw/bls-LES1252881500-2019-2026.json",
+          "sha256": "e6b01ebaef2bef509f97baf278d14a9379c7af67b5c11e2d10f29c644254745d"
+        }
+      ],
+      "release_period": "2026-Q2",
+      "units": "current US dollars per week, seasonally adjusted",
+      "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/LES1252881500"
+    }
+  ]
+}
