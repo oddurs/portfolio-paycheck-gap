@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 from collections.abc import Callable, Sequence
+from datetime import UTC, datetime
 from pathlib import Path
 
 from ppg_index import __version__
@@ -27,6 +28,27 @@ def _path(value: str) -> Path:
     return Path(value).expanduser()
 
 
+def _current_year() -> int:
+    return datetime.now(UTC).year
+
+
+def _fetch(args: argparse.Namespace) -> int:
+    from ppg_index.sources import SnapshotError, SourceValidationError, acquire_snapshot
+
+    try:
+        snapshot = acquire_snapshot(
+            args.cache_dir,
+            end_year=args.end_year,
+            retrieved_at=args.retrieved_at,
+            accept_revision=args.accept_revision,
+        )
+    except (OSError, SnapshotError, SourceValidationError) as error:
+        print(f"ppg fetch failed: {error}", file=sys.stderr)
+        return 1
+    print(snapshot)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ppg",
@@ -37,7 +59,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     fetch = commands.add_parser("fetch", help="Retrieve and cache canonical source snapshots.")
     fetch.add_argument("--cache-dir", type=_path, default=Path("data/cache"))
-    fetch.set_defaults(handler=_pending("fetch"))
+    fetch.add_argument("--end-year", type=int, default=_current_year())
+    fetch.add_argument(
+        "--retrieved-at",
+        help="Override retrieval timestamp with a timezone-aware ISO 8601 value.",
+    )
+    fetch.add_argument(
+        "--accept-revision",
+        action="store_true",
+        help="Accept changed values in periods shared with the current snapshot.",
+    )
+    fetch.set_defaults(handler=_fetch)
 
     build = commands.add_parser("build", help="Build index artifacts from cached snapshots.")
     build.add_argument("--snapshot-dir", type=_path, default=Path("data/cache/current"))
