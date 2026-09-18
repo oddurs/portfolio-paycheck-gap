@@ -1,11 +1,33 @@
-.PHONY: check methodology-check roadmap source-check
+.PHONY: check format lint methodology-check package roadmap setup source-check test
+
+UV := uv
+
+setup:
+	$(UV) sync --locked --all-groups
+
+format:
+	$(UV) run ruff format .
+	$(UV) run ruff check --fix .
+
+lint:
+	$(UV) run ruff check .
+	$(UV) run ruff format --check .
+
+test:
+	$(UV) run pytest
+
+package:
+	$(UV) build
 
 check:
 	cairn check
 	cairn render --check
-	python3 scripts/run_reference_notebook.py
-	python3 scripts/run_methodology_tests.py
-	python3 scripts/check_methodology_docs.py
+	$(UV) run ruff check .
+	$(UV) run ruff format --check .
+	$(UV) run pytest
+	$(UV) run python scripts/run_reference_notebook.py
+	$(UV) run python scripts/run_methodology_tests.py
+	$(UV) run python scripts/check_methodology_docs.py
 	git diff --check
 	git diff --cached --check
 
@@ -13,10 +35,10 @@ roadmap:
 	cairn render
 
 source-check:
-	python3 scripts/verify_source_samples.py
-	python3 scripts/run_methodology_tests.py --online-revisions
+	$(UV) run python scripts/verify_source_samples.py
+	$(UV) run python scripts/run_methodology_tests.py --online-revisions
 
 methodology-check:
-	python3 scripts/run_reference_notebook.py
-	python3 scripts/run_methodology_tests.py
-	python3 scripts/check_methodology_docs.py
+	$(UV) run python scripts/run_reference_notebook.py
+	$(UV) run python scripts/run_methodology_tests.py
+	$(UV) run python scripts/check_methodology_docs.py

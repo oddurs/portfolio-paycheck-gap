@@ -16,6 +16,7 @@ __pycache__/
 htmlcov/
 build/
 dist/
+.python-version
 
 # Notebooks and editors
 .ipynb_checkpoints/

@@ -3,28 +3,25 @@
 
 from __future__ import annotations
 
-from calendar import monthrange
 import csv
 import hashlib
 import io
 import math
-from pathlib import Path
 import statistics
 import sys
-from urllib.request import Request, urlopen
 import zipfile
-
+from calendar import monthrange
+from pathlib import Path
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ROOT / "tests" / "fixtures" / "sources"
 SENSITIVITY = ROOT / "tests" / "fixtures" / "sensitivity"
 JKP_CURRENT_URL = (
-    "https://jkpfactors-data.s3.amazonaws.com/public/"
-    "%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
+    "https://jkpfactors-data.s3.amazonaws.com/public/%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
 )
 JKP_LEGACY_URL = (
-    "https://jkpfactors.s3.amazonaws.com/public/"
-    "%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
+    "https://jkpfactors.s3.amazonaws.com/public/%5Busa%5D_%5Bmkt%5D_%5Bmonthly%5D_%5Bvw%5D.zip"
 )
 JKP_CURRENT_HASH = "8c69cc848ebb447f8c47346a4b3eabed65fac03f0b895b04319f3828e3b6e79f"
 JKP_LEGACY_HASH = "0cdeaee6c4980085fae967d70246a79ed0c7274161ba1a3a1d5eeec8bba78f87"
@@ -80,7 +77,7 @@ def calculate(
 
     paycheck_values = [float(row[paycheck_column]) for row in paychecks]
     result: list[float] = []
-    for market_value, paycheck_value in zip(quarter_market, paycheck_values):
+    for market_value, paycheck_value in zip(quarter_market, paycheck_values, strict=True):
         market_component = 100.0 * market_value / quarter_market[base_index]
         paycheck_component = 100.0 * paycheck_value / paycheck_values[base_index]
         result.append(100.0 * market_component / paycheck_component)
@@ -245,9 +242,11 @@ def online_revision_check() -> None:
     assert worst == "1933-03-31"
     assert abs(absolute[-1] - 0.0026240090280681555) < 1e-15
 
-    fred = csv.DictReader(io.StringIO(fetch(
-        "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS"
-    ).decode("utf-8-sig")))
+    fred = csv.DictReader(
+        io.StringIO(
+            fetch("https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS").decode("utf-8-sig")
+        )
+    )
     yields = {
         row["observation_date"][:7]: float(row["TB3MS"])
         for row in fred
@@ -257,9 +256,7 @@ def online_revision_check() -> None:
     def component(source: dict[str, float]) -> float:
         wealth = 1.0
         base = None
-        for date in sorted(
-            value for value in source if "1980-01-01" <= value <= "2023-12-31"
-        ):
+        for date in sorted(value for value in source if "1980-01-01" <= value <= "2023-12-31"):
             year, month, _ = map(int, date.split("-"))
             rf = treasury_return(year, month, yields[date[:7]], "canonical")
             wealth *= 1.0 + source[date] + rf
