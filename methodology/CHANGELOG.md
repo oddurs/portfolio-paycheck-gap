@@ -21,6 +21,9 @@ Initial accepted definition.
   BY-NC 4.0 and adopted the Federal Reserve/BLS attribution notices.
 - Published a typed data dictionary, three-quarter reference fixture,
   sensitivity table, revision measurements, and executable conformance checks.
+- Declared the additive quarter-over-quarter and year-over-year comparison
+  fields emitted by the production engine; the formula and public observation
+  schema are unchanged.
 
 Evidence: [core decision](decisions/0005-core-definition.md), [source
 decision](decisions/0006-data-sources.md), and [sensitivity

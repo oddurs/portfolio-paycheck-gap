@@ -86,6 +86,8 @@ required in the headline CSV.
 | `market_component` | float64 | index, 1980 Q1 = 100 | quarterly | no | Unrounded until publication; then 6 decimals |
 | `paycheck_component` | float64 | index, 1980 Q1 = 100 | quarterly | no | Unrounded until publication; then 6 decimals |
 | `ppg` | float64 | index, 1980 Q1 = 100 | quarterly | no | Unrounded until publication; then 6 decimals |
+| `ppg_change_qoq_percent` | float64 | percent change | quarterly | yes for first observation | `(PPG_t / PPG_(t-1) - 1) × 100`, calculated from unrounded values |
+| `ppg_change_yoy_percent` | float64 | percent change | quarterly | yes for first four observations | `(PPG_t / PPG_(t-4) - 1) × 100`, calculated from unrounded values |
 
 ## Public observation row
 
