@@ -136,6 +136,17 @@ def test_frontend_has_no_runtime_or_remote_asset_dependency() -> None:
 
 
 def test_responsive_focus_reduced_motion_and_print_rules_are_present() -> None:
+    for token in (
+        "--text-xs",
+        "--text-base",
+        "--text-lede",
+        "--text-section",
+        "--text-display",
+        "--space-1",
+        "--space-4",
+        "--space-8",
+    ):
+        assert token in CSS
     assert ":focus-visible" in CSS
     assert "@media (max-width: 52rem)" in CSS
     assert "@media (max-width: 38rem)" in CSS
